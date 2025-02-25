@@ -25,6 +25,7 @@ class MainNode : public rclcpp::Node {
                 "check_status", 
                 std::bind(&MainNode::handle_request, this, std::placeholders::_1, std::placeholders::_2)
             );
+            RCLCPP_INFO(this->get_logger(), "Main Node created!");
         }
 
     private:

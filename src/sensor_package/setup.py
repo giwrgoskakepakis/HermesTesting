@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'sensor_handler'
+package_name = 'sensor_package'
 
 setup(
     name=package_name,
@@ -20,7 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'sensor_script = sensor_handler.sensor_script:main'
+            'sensor_script = sensor_package.sensor_script:main'
         ],
     },
 )
