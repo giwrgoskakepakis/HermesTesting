@@ -1,5 +1,6 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/float32.hpp"
+#include "std_msgs/msg/bool.hpp"
 #include "std_srvs/srv/trigger.hpp"
 #include <iostream>
 #include <cstdlib>
@@ -19,13 +20,33 @@ class MainNode : public rclcpp::Node {
 
         // Constructor
         MainNode() : Node("main_node") {
-
-            // Create the service
-            checks_service_ = this->create_service<std_srvs::srv::Trigger>(
-                "check_status", 
-                std::bind(&MainNode::handle_request, this, std::placeholders::_1, std::placeholders::_2)
+        
+            // signal to start sensors after checks (Latching)
+            publisher_sensors_start_ = this->create_publisher<std_msgs::msg::Bool>(
+                "sensors_start_signal", rclcpp::QoS(1).transient_local()
             );
-            RCLCPP_INFO(this->get_logger(), "Main Node created!");
+        }
+
+        // Simulated sensor checks
+        bool perform_checks() {
+            auto msg = std_msgs::msg::Bool();
+
+            // simulated checks
+            bool sensor_check = check_sensor_status();
+            bool config_check = check_configuration();
+
+            if (sensor_check && config_check) {
+                RCLCPP_INFO(this->get_logger(), (GREEN + "        Main Node: Checks passed successfully." + RESET).c_str());
+                msg.data = true;
+            }
+            else {
+                RCLCPP_ERROR(this->get_logger(), (RED + "        Main Node: Checks failed." + RESET).c_str());
+                msg.data = false;
+            }
+
+            // send the signal
+            publisher_sensors_start_->publish(msg);
+            RCLCPP_INFO(this->get_logger(), "Sent start signal!");
         }
 
     private:
@@ -34,67 +55,21 @@ class MainNode : public rclcpp::Node {
         bool check_sensor_status() { return true; }
         bool check_configuration() { return true; }
 
-        // Simulated checks
-        bool perform_checks() {
-
-            // simulated checks
-            bool sensor_check = check_sensor_status();
-            bool config_check = check_configuration();
-
-            if (sensor_check && config_check) {
-                RCLCPP_INFO(this->get_logger(), (GREEN + "        Main Node: Checks passed successfully." + RESET).c_str());
-                return true;
-            }
-            else {
-                RCLCPP_ERROR(this->get_logger(), (RED + "        Main Node: Checks failed." + RESET).c_str());
-                return false;
-            }
-        }
-
-        // Subscriber callback
-        void subscriber_callback(const std_msgs::msg::Float32::SharedPtr msg) {
-            RCLCPP_INFO(this->get_logger(), "        Main Node:     Received sensor data:   %f", msg->data);
-        }
-
-        // Request callback
-        void handle_request(const std::shared_ptr<std_srvs::srv::Trigger::Request>, std::shared_ptr<std_srvs::srv::Trigger::Response> response) {
-            bool res;
-
-            RCLCPP_INFO(this->get_logger(), "        Main Node:     Received request to check status.");
-
-            // Simulated checks
-            RCLCPP_INFO(this->get_logger(), "        Main Node: Performing checks...");
-            res = perform_checks();
-            RCLCPP_INFO(this->get_logger(), "        Main Node: Checks completed.");
-
-            // Send the response
-            response->success = res;
-            response->message = "Checks are completed. Python can proceed.";
-
-            // If checks passed successfully / failed
-            if (res) {
-
-                // Subscriber object
-                subscriber_ = this->create_subscription<std_msgs::msg::Float32>(
-                    "/sensor_data", 10, std::bind(&MainNode::subscriber_callback, this, std::placeholders::_1)
-                );
-                RCLCPP_INFO(this->get_logger(), "        Main Node: Waiting for sensor data...");
-            }
-            else {
-                RCLCPP_ERROR(this->get_logger(), "        Main Node:Simulated checks failed. Python script will not run.");
-            }
-
-        }
-
-        // attribute
-        rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr subscriber_;
-        rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr checks_service_;
+        // attributes
+        rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr publisher_sensors_start_;
 };
 
 
 // Main function
 int main(int argc, char **argv) {
     rclcpp::init(argc, argv);
+
+    // Create the node
+    auto node = std::make_shared<MainNode>();  
+
+    // Perform sensor checks
+    node->perform_checks();
+
     rclcpp::spin(std::make_shared<MainNode>());
     rclcpp::shutdown();
     return 0;
