@@ -3,20 +3,23 @@ from rclpy.node import Node
 from std_msgs.msg import Float32
 from std_msgs.msg import Bool
 import time
-from std_srvs.srv import Trigger
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
 
+YELLOW = "\033[93m" 
+BLUE = "\033[94m"
+RESET = "\033[0m" 
+
 # Sensor Node Class
-class SensorNode(Node):
+class Sensor1Node(Node):
 
     # Constructor
     def __init__(self):
-        super().__init__('sensor_script')
+        super().__init__('sensor1_script')
 
         # subscriber object (to 'go' signal from main) (using 'Transient Local QoS')
         self.subscriber_sensors_start = self.create_subscription(
             Bool, 
-            'start_signal', 
+            'sensors_start_signal', 
             self.evaluate_start_signal, 
             QoSProfile(
                 depth=1,
@@ -28,17 +31,17 @@ class SensorNode(Node):
         # publisher object (to sensor data)
         self.publisher_sensor_data_ = self.create_publisher(
             Float32, 
-            'sensor_data',
+            'sensor1_data',
             10
         )
 
-        self.get_logger().error("Sensor node created!!")
+        self.get_logger().info("Sensor1 node created!!")
 
     # start sensor functionality
     def evaluate_start_signal(self, msg):
         
         if msg.data:
-            self.get_logger().error("Sensor Script: Checks passed. Starting sensor publishing.")
+            self.get_logger().info("Sensor Script: Checks passed. Starting sensor publishing.")
             
             # timer object (simulated data generation)
             self.timer_simulated_data_ = self.create_timer(1.0, self.timer_callback_generate_data)
@@ -53,7 +56,7 @@ class SensorNode(Node):
         msg.data = 5.0 + (time.time() % 10)
 
         # publish simulated value
-        self.get_logger().info(f"Sensor Script: Publishing sensor data: {msg.data}")
+        self.get_logger().info(f"{YELLOW}Sensor1{RESET} Script: Publishing sensor data: {msg.data}")
         self.publisher_sensor_data_.publish(msg)
         
 
@@ -61,8 +64,7 @@ class SensorNode(Node):
 def main(args=None):
     rclpy.init(args=args)
     
-    node = SensorNode()
-    #node.wait_main_checks()
+    node = Sensor1Node()
     
     rclpy.spin(node)
     node.destroy_node()

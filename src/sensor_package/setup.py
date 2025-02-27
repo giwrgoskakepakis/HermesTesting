@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'sensor_script = sensor_package.sensor_script:main'
+            'sensor1_script = sensor_package.sensor1_script:main',
+            'sensor2_script = sensor_package.sensor2_script:main'
         ],
     },
 )

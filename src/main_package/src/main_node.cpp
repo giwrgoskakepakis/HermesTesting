@@ -1,12 +1,8 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/float32.hpp"
 #include "std_msgs/msg/bool.hpp"
-#include "std_srvs/srv/trigger.hpp"
 #include <iostream>
 #include <cstdlib>
-#include <thread>
-
-// new comment
 
 using namespace std::chrono_literals;
 

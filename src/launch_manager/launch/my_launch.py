@@ -9,9 +9,23 @@ def generate_launch_description():
             name='main_node'
         ),
         Node(
+            package='sensor_handler_package',
+            executable='sensor_handler_node',
+            name='sensor_handler_node',
+            parameters=[
+                {"test_param": "hello"}
+            ]
+        ),
+        Node(
             package='sensor_package',
-            executable='sensor_script',
-            name='sensor_script',
+            executable='sensor1_script',
+            name='sensor1_script',
+            output='screen'
+        ),
+        Node(
+            package='sensor_package',
+            executable='sensor2_script',
+            name='sensor2_script',
             output='screen'
         )
     ])
