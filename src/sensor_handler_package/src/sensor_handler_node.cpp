@@ -25,12 +25,12 @@ class SensorHandlerNode : public rclcpp::Node {
 
             // subscriber objects (to 'sensor data')
             subscriber_sensor1_data_ = this->create_subscription<std_msgs::msg::Float32>(
-                "sensor1_data", 10,
+                "sensor1_script_data", 10,
                 std::bind(&SensorHandlerNode::sensor1_data_updating, this, std::placeholders::_1)
             );
 
             subscriber_sensor2_data_ = this->create_subscription<std_msgs::msg::String>(
-                "sensor2_data", 10,
+                "sensor2_script_data", 10,
                 std::bind(&SensorHandlerNode::sensor2_data_updating, this, std::placeholders::_1)
             );
 
