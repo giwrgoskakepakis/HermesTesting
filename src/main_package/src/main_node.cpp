@@ -28,7 +28,7 @@ class MainNode : public rclcpp::Node {
         }
 
         // Simulated sensor checks
-        bool perform_checks() {
+        void perform_checks() {
             auto msg = std_msgs::msg::Bool();
 
             // simulated checks
@@ -46,7 +46,7 @@ class MainNode : public rclcpp::Node {
 
             // send the signal
             publisher_sensors_start_->publish(msg);
-            RCLCPP_INFO(this->get_logger(), "Sent start signal!");
+            RCLCPP_INFO(this->get_logger(), "Sent start signal!!!");
         }
 
     private:
@@ -65,12 +65,12 @@ int main(int argc, char **argv) {
     rclcpp::init(argc, argv);
 
     // Create the node
-    auto node = std::make_shared<MainNode>();  
+    auto main_node = std::make_shared<MainNode>();  
 
     // Perform sensor checks
-    node->perform_checks();
+    main_node->perform_checks();
 
-    rclcpp::spin(std::make_shared<MainNode>());
+    rclcpp::spin(main_node);
     rclcpp::shutdown();
     return 0;
 }

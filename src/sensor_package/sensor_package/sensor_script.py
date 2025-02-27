@@ -32,6 +32,8 @@ class SensorNode(Node):
             10
         )
 
+        self.get_logger().error("Sensor node created!!")
+
     # start sensor functionality
     def evaluate_start_signal(self, msg):
         

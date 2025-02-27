@@ -9,7 +9,7 @@ def generate_launch_description():
             name='main_node'
         ),
         Node(
-            package='sensor_handler',
+            package='sensor_package',
             executable='sensor_script',
             name='sensor_script',
             output='screen'
