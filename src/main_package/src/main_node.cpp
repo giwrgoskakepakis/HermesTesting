@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <thread>
 
-// new commend
+// new comment
 
 using namespace std::chrono_literals;
 
