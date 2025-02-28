@@ -24,14 +24,14 @@ class Sensor1Node(SensorNode):
         return msg
 
 # Main function
-def main(args=None):
-    rclpy.init(args=args)
+# def main(args=None):
+#     rclpy.init(args=args)
     
-    node = Sensor1Node()
+#     node = Sensor1Node()
     
-    rclpy.spin(node)
-    node.destroy_node()
-    rclpy.shutdown()
+#     rclpy.spin(node)
+#     node.destroy_node()
+#     rclpy.shutdown()
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
