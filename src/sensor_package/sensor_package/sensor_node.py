@@ -47,7 +47,7 @@ class SensorNode(Node):
         msg = self.take_measurements(*self.args)
 
         try: 
-            self.get_logger().info(f"{self.sensor_name}: Publishing sensor data: {msg.data}")
+            # self.get_logger().info(f"{self.sensor_name}: Publishing sensor data: {msg.data}")
             self.publisher_sensor_data_.publish(msg)
         except Exception as e:
             self.get_logger().error(f"{self.sensor_name}: Publishing sensor data threw an exception: \n {e}")

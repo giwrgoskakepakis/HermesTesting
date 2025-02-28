@@ -1,6 +1,7 @@
-import rclpy
 from std_msgs.msg import Float32
 import time
+import random
+from msg_types.msg import Temperature
 
 from sensor_package.sensor_node import SensorNode
 
@@ -13,13 +14,15 @@ class Sensor1Node(SensorNode):
 
     # Constructor
     def __init__(self):
-        super().__init__('sensor1_script', Float32, 0.5, [1])
+        super().__init__('sensor1_script', Temperature, 0.5, [1])
 
     # interface implementation
     def take_measurements(self, x):
 
-        msg =  Float32()
-        msg.data =  x + (time.time() % 10)
+        msg =  Temperature()
+        msg.var2 = random.uniform(0.0, 100.0)
+        msg.var1 = random.randint(0, 3)
+        # msg.data =  x + (time.time() % 10)
 
         return msg
 

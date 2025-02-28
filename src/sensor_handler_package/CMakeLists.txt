@@ -9,6 +9,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(msg_types REQUIRED)
 
 # include directories
 include_directories(include)
@@ -18,7 +19,7 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 add_executable(sensor_handler_node src/sensor_handler_node.cpp)
 
 # link dependencies
-ament_target_dependencies(sensor_handler_node rclcpp std_msgs)
+ament_target_dependencies(sensor_handler_node rclcpp std_msgs msg_types)
 
 # install executables
 install(TARGETS sensor_handler_node DESTINATION lib/${PROJECT_NAME})
