@@ -4,11 +4,10 @@ from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
 
 class SensorNode(Node):
 
-    def __init__(self, sensor_name: str, data_type: type, delay: float, take_measurements: callable, args: list):
+    def __init__(self, sensor_name: str, data_type: type, delay: float, args: list):
         super().__init__(sensor_name)
 
         self.sensor_name = sensor_name
-        self.take_measurements = take_measurements
         self.args = args
         self.delay = delay
 

@@ -13,7 +13,7 @@ class Sensor2Node(SensorNode):
 
     # Constructor
     def __init__(self):
-        super().__init__('sensor2_script', String, 0.5, self.take_measurements, ["randomstring"])
+        super().__init__('sensor2_script', String, 0.5, ["randomstring"])
 
     # interface implementation
     def take_measurements(self, x):

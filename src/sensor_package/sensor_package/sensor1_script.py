@@ -13,7 +13,7 @@ class Sensor1Node(SensorNode):
 
     # Constructor
     def __init__(self):
-        super().__init__('sensor1_script', Float32, 0.5, self.take_measurements, [1])
+        super().__init__('sensor1_script', Float32, 0.5, [1])
 
     # interface implementation
     def take_measurements(self, x):
