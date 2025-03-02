@@ -16,22 +16,22 @@ def generate_launch_description():
                 {"test_param": "hello"}
             ]
         ),
-        # Node(
-        #     package='sensor_package',
-        #     executable='sensor1_script',
-        #     name='sensor1_script',
-        #     output='screen'
-        # ),
-        # Node(
-        #     package='sensor_package',
-        #     executable='sensor2_script',
-        #     name='sensor2_script',
-        #     output='screen'
-        # ),
         Node(
             package='sensor_package',
-            executable='sensors_init',
-            name='sensors_init',
+            executable='sensor1_script',
+            name='sensor1_script',
+            output='screen'
+        ),
+        Node(
+            package='sensor_package',
+            executable='sensor2_script',
+            name='sensor2_script',
             output='screen'
         )
+        # Node(
+        #     package='sensor_package',
+        #     executable='sensors_init',
+        #     name='sensors_init',
+        #     output='screen'
+        # )
     ])
