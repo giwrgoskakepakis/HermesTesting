@@ -1,8 +1,9 @@
+from abc import ABC, abstractmethod
 from rclpy.node import Node
 from std_msgs.msg import Bool
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
 
-class SensorNode(Node):
+class SensorNode(Node, ABC):
 
     def __init__(self, sensor_name: str, data_type: type, delay: float, args: list):
         super().__init__(sensor_name)
@@ -51,3 +52,8 @@ class SensorNode(Node):
             self.publisher_sensor_data_.publish(msg)
         except Exception as e:
             self.get_logger().error(f"{self.sensor_name}: Publishing sensor data threw an exception: \n {e}")
+    
+    @abstractmethod
+    def take_measurements(self, *args):
+        """Abstract method that must be implemented by child classes"""
+        pass  

@@ -21,7 +21,6 @@ class Sensor1Node(SensorNode):
         msg =  Temperature()
         msg.var2 = random.uniform(0.0, 100.0)
         msg.var1 = random.randint(0, 3)
-        # msg.data =  x + (time.time() % 10)
 
         return msg
 
