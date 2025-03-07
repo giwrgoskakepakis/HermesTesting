@@ -12,11 +12,9 @@ class GyroscopeSensorNode(SensorNode):
 
     # interface implementation
     def take_measurements(self):
-
         msg =  Gyroscope()
         msg.angle_x = random.uniform(0.0, 100.0)
         msg.angle_y = random.uniform(0.0, 100.0)
-
         return msg
 
 # Main function

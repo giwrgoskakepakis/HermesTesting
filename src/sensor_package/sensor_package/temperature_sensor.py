@@ -12,10 +12,8 @@ class TemperatureSensorNode(SensorNode):
 
     # interface implementation
     def take_measurements(self):
-
         msg =  Temperature()
-        msg.temperatures_array = [random.uniform(0.0, 100.0) for _ in range(15)]
-
+        msg.temperatures_array = [int(random.uniform(0.0, 100.0)) for _ in range(15)]
         return msg
 
 # Main function

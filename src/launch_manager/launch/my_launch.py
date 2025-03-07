@@ -4,8 +4,9 @@ from launch_ros.actions import Node
 def generate_launch_description():
 
     sensor1_name = "gyroscope_sensor"
+    sensor2_name = "temperature_sensor"
 
-    sensor_names = [sensor1_name]
+    sensor_names = [sensor1_name, sensor2_name]
 
     return LaunchDescription([
         Node(
@@ -28,6 +29,15 @@ def generate_launch_description():
             output='screen',
             parameters=[
                 {"sensor_name": sensor1_name}
+            ]
+        ),
+        Node(
+            package='sensor_package',
+            executable='temperature_sensor',
+            name='temperature_sensor',
+            output='screen',
+            parameters=[
+                {"sensor_name": sensor2_name}
             ]
         )
     ])

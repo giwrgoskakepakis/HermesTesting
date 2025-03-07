@@ -6,6 +6,9 @@
 #include "std_msgs/msg/bool.hpp"
 #include "std_msgs/msg/string.hpp"
 #include <msg_types/msg/gyroscope.hpp>
+#include <msg_types/msg/temperature.hpp>
+#include <msg_types/msg/voltage.hpp>
+#include <msg_types/msg/sole_pressure.hpp>
 #include <vector>
 #include <string>
 
@@ -38,6 +41,8 @@ const std::string RED = "\033[91m";
 const std::string RESET = "\033[0m";
 const std::string YELLOW = "\033[93m";
 const std::string BLUE = "\033[94m";
+const std::string MAGENTA = "\033[95m";
+const std::string CYAN = "\033[96m";
 
 class SensorHandlerNode : public rclcpp::Node {
     public:
@@ -45,13 +50,21 @@ class SensorHandlerNode : public rclcpp::Node {
 
     private:
         void gyroscope_sensor_data_updating(const msg_types::msg::Gyroscope::SharedPtr msg);
+        void temperatures_sensor_data_updating(const msg_types::msg::Temperature::SharedPtr msg);
+        
+        void handle_data();
         void gyroscope_sensor_data_handling();
+        void temperatures_sensor_data_handling();
+
 
         rclcpp::Subscription<msg_types::msg::Gyroscope>::SharedPtr subscriber_gyroscope_sensor_data_;
+        rclcpp::Subscription<msg_types::msg::Temperature>::SharedPtr subscriber_temperatures_sensor_data_;
+
         rclcpp::TimerBase::SharedPtr timer_handle_data_;
 
         std::vector<std::string> sensor_names;
         GyroscopeAngles gyroscope_angles;
+        Temperatures temperatures;
 };
 
 #endif // SENSOR_HANDLER_NODE_HPP
