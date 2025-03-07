@@ -19,6 +19,12 @@ SensorHandlerNode::SensorHandlerNode() : Node("sensor_handler_node") {
         std::bind(&SensorHandlerNode::temperatures_sensor_data_updating, this, std::placeholders::_1)
     );
 
+    // Voltage: subscriber object
+    subscriber_voltages_sensor_data_ = this->create_subscription<msg_types::msg::Voltage>(
+        sensor_names[2] + "_data", 10,
+        std::bind(&SensorHandlerNode::voltages_sensor_data_updating, this, std::placeholders::_1)
+    );
+
     // Timer object for ALL sensors
     timer_handle_data_ = this->create_wall_timer(
         std::chrono::seconds(3),
@@ -45,6 +51,15 @@ void SensorHandlerNode::temperatures_sensor_data_updating(const msg_types::msg::
     RCLCPP_INFO(this->get_logger(), ("Updated " + BLUE + "temperatures_sensor" + RESET + " data: %d %d %d %d").c_str(), temperatures.temp_values[0], temperatures.temp_values[1], temperatures.temp_values[2], temperatures.temp_values[3]);
 }
 
+// Voltages: Callback to update sensor data
+void SensorHandlerNode::voltages_sensor_data_updating(const msg_types::msg::Voltage::SharedPtr msg) {
+    for (size_t i = 0; i < msg->voltages_array.size(); ++i) {
+        voltages.volt_values[i] = msg->voltages_array[i];
+    }
+
+    RCLCPP_INFO(this->get_logger(), ("Updated " + MAGENTA + "voltages_sensor" + RESET + " data: %f %f %f %f").c_str(), voltages.volt_values[0], voltages.volt_values[1], voltages.volt_values[2], voltages.volt_values[3]);
+}
+
 
 // ======================================== Handling Functions ========================================
 // Gyroscope: data handling
@@ -54,15 +69,20 @@ void SensorHandlerNode::gyroscope_sensor_data_handling() {
 
 // Temperatures: data handling
 void SensorHandlerNode::temperatures_sensor_data_handling() {
-    RCLCPP_INFO(this->get_logger(), (MAGENTA + "Handling temperature data periodically: %d %d %d %d" + RESET).c_str(), temperatures.temp_values[0], temperatures.temp_values[1], temperatures.temp_values[2], temperatures.temp_values[3]);
+    RCLCPP_INFO(this->get_logger(), (GREEN + "Handling temperature data periodically: %d %d %d %d" + RESET).c_str(), temperatures.temp_values[0], temperatures.temp_values[1], temperatures.temp_values[2], temperatures.temp_values[3]);
+}
+
+// Voltages: data handling
+void SensorHandlerNode::voltages_sensor_data_handling() {
+    RCLCPP_INFO(this->get_logger(), (GREEN + "Handling voltage data periodically: %f %f %f %f" + RESET).c_str(), voltages.volt_values[0], voltages.volt_values[1], voltages.volt_values[2], voltages.volt_values[3]);
 }
 
 // Callback to handle sensor data periodically
 void SensorHandlerNode::handle_data() {
     gyroscope_sensor_data_handling();
     temperatures_sensor_data_handling();
+    voltages_sensor_data_handling();
 }
-
 
 
 // Main function

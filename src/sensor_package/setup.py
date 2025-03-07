@@ -21,7 +21,8 @@ setup(
     entry_points={
         'console_scripts': [
             'gyroscope_sensor = sensor_package.gyroscope_sensor:main', 
-            'temperature_sensor = sensor_package.temperature_sensor:main'
+            'temperature_sensor = sensor_package.temperature_sensor:main',
+            'voltage_sensor = sensor_package.voltage_sensor:main'
         ],
     },
 )
