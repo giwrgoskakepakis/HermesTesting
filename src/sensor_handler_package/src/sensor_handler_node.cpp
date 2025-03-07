@@ -22,16 +22,17 @@ class SensorHandlerNode : public rclcpp::Node {
         SensorHandlerNode() : Node("sensor_handler_node") {
 
             // Parameter
-            this->declare_parameter("test_param", "bye");
+            this->declare_parameter<std::vector<std::string>>("sensor_names");
+            this->sensor_names = this->get_parameter("sensor_names").as_string_array();
 
             // subscriber objects (to 'sensor data')
             subscriber_sensor1_data_ = this->create_subscription<msg_types::msg::Temperature>(
-                "sensor1_script_data", 10,
+                sensor_names[0] + "_data", 10,
                 std::bind(&SensorHandlerNode::sensor1_data_updating, this, std::placeholders::_1)
             );
 
             subscriber_sensor2_data_ = this->create_subscription<std_msgs::msg::String>(
-                "sensor2_script_data", 10,
+                sensor_names[1] + "_data", 10,
                 std::bind(&SensorHandlerNode::sensor2_data_updating, this, std::placeholders::_1)
             );
 
@@ -40,16 +41,12 @@ class SensorHandlerNode : public rclcpp::Node {
                 std::chrono::seconds(3), 
                 std::bind(&SensorHandlerNode::sensor1_data_handling, this)
             );
-
-            std::string my_param = this->get_parameter("test_param").as_string();
-            RCLCPP_INFO(this->get_logger(), "parameter: %s", my_param.c_str());
         }
 
     private:
 
         // timer callback (just update the data)
         void sensor1_data_updating(const msg_types::msg::Temperature::SharedPtr msg) {
-            // latest_sensor1_data_ = msg->data;
             latest_sensor1_data_ = msg->var2;
             latest_sensor1_error_codes = msg->var1;
             RCLCPP_INFO(this->get_logger(), ("Updated " + YELLOW + "sensor1" + RESET + " data: %f %d").c_str(), latest_sensor1_data_, latest_sensor1_error_codes);
@@ -72,6 +69,7 @@ class SensorHandlerNode : public rclcpp::Node {
         float latest_sensor1_data_ = 0.0f;
         int latest_sensor1_error_codes = 0;
         std::string latest_sensor2_data_ = "";
+        std::vector<std::string> sensor_names;
 };
 
 // Main function

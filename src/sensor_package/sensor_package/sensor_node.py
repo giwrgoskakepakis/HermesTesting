@@ -8,7 +8,10 @@ class SensorNode(Node, ABC):
     def __init__(self, sensor_name: str, data_type: type, delay: float, args: list):
         super().__init__(sensor_name)
 
-        self.sensor_name = sensor_name
+        self.declare_parameter("sensor_name", "default_topic")
+        self.sensor_name = self.get_parameter("sensor_name").value
+        self.get_logger().info(f"Publishing on topic: {self.sensor_name}")
+
         self.args = args
         self.delay = delay
 
@@ -28,7 +31,7 @@ class SensorNode(Node, ABC):
         # publisher object (to sensor data)
         self.publisher_sensor_data_ = self.create_publisher(
             data_type, 
-            f"{sensor_name}_data",
+            f"{self.sensor_name}_data",
             10
         )
 
