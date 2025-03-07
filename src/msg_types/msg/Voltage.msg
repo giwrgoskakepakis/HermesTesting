@@ -1,0 +1,1 @@
+float32[15] voltages_array

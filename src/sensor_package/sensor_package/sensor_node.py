@@ -35,7 +35,7 @@ class SensorNode(Node, ABC):
             10
         )
 
-        self.get_logger().info(f"{sensor_name} node created successfully")
+        self.get_logger().info(f"{self.sensor_name} node created successfully")
 
     def evaluate_start_signal(self, msg):
         

@@ -20,9 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'sensor1_script = sensor_package.sensor1_script:main',
-            'sensor2_script = sensor_package.sensor2_script:main',
-            'sensors_init = sensor_package.sensors_init:main'
+            'gyroscope_sensor = sensor_package.gyroscope_sensor:main', 
+            'temperature_sensor = sensor_package.temperature_sensor:main'
         ],
     },
 )

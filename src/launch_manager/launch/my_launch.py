@@ -3,10 +3,9 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
-    sensor1_name = "sensor1_data"
-    sensor2_name = "sensor2_data"
+    sensor1_name = "gyroscope_sensor"
 
-    sensor_names = [sensor1_name, sensor2_name]
+    sensor_names = [sensor1_name]
 
     return LaunchDescription([
         Node(
@@ -24,20 +23,11 @@ def generate_launch_description():
         ),
         Node(
             package='sensor_package',
-            executable='sensor1_script',
-            name='sensor1_script',
+            executable='gyroscope_sensor',
+            name='gyroscope_sensor',
             output='screen',
             parameters=[
                 {"sensor_name": sensor1_name}
-            ]
-        ),
-        Node(
-            package='sensor_package',
-            executable='sensor2_script',
-            name='sensor2_script',
-            output='screen',
-            parameters=[
-                {"sensor_name": sensor2_name}
             ]
         )
     ])

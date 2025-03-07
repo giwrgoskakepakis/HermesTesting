@@ -1,3 +1,1 @@
-int32 var1
-
-float32 var2
+int32[15] temperatures_array

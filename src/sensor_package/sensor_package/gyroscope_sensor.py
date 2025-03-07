@@ -1,26 +1,21 @@
 import random
-from msg_types.msg import Temperature
 import rclpy
-
+from msg_types.msg import Gyroscope
 from sensor_package.sensor_node import SensorNode
 
-YELLOW = "\033[93m" 
-BLUE = "\033[94m"
-RESET = "\033[0m" 
-
 # Sensor Node Class
-class Sensor1Node(SensorNode):
+class GyroscopeSensorNode(SensorNode):
 
     # Constructor
     def __init__(self):
-        super().__init__('sensor1_script', Temperature, 0.5, [1])
+        super().__init__('gyroscope_sensor', Gyroscope, 0.5, [])
 
     # interface implementation
-    def take_measurements(self, x):
+    def take_measurements(self):
 
-        msg =  Temperature()
-        msg.var2 = random.uniform(0.0, 100.0)
-        msg.var1 = random.randint(0, 3)
+        msg =  Gyroscope()
+        msg.angle_x = random.uniform(0.0, 100.0)
+        msg.angle_y = random.uniform(0.0, 100.0)
 
         return msg
 
@@ -28,7 +23,7 @@ class Sensor1Node(SensorNode):
 def main(args=None):
     rclpy.init(args=args)
     
-    node = Sensor1Node()
+    node = GyroscopeSensorNode()
     
     rclpy.spin(node)
     node.destroy_node()

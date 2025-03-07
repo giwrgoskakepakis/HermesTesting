@@ -15,6 +15,9 @@ find_package(std_msgs REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Temperature.msg"
+  "msg/Voltage.msg"
+  "msg/SolePressure.msg"
+  "msg/Gyroscope.msg"
   DEPENDENCIES std_msgs
 )
 

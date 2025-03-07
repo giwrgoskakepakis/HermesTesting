@@ -1,33 +1,28 @@
+import random
 import rclpy
-from std_msgs.msg import String
-import time
-
+from msg_types.msg import Temperature
 from sensor_package.sensor_node import SensorNode
 
-YELLOW = "\033[93m" 
-BLUE = "\033[94m"
-RESET = "\033[0m" 
-
 # Sensor Node Class
-class Sensor2Node(SensorNode):
+class TemperatureSensorNode(SensorNode):
 
     # Constructor
     def __init__(self):
-        super().__init__('sensor2_script', String, 0.5, ["randomstring"])
+        super().__init__('temperature_sensor', Temperature, 0.5, [])
 
     # interface implementation
-    def take_measurements(self, x):
+    def take_measurements(self):
 
-        msg =  String()
-        msg.data =  str(time.time() % 10)
+        msg =  Temperature()
+        msg.temperatures_array = [random.uniform(0.0, 100.0) for _ in range(15)]
 
         return msg
-        
+
 # Main function
 def main(args=None):
     rclpy.init(args=args)
     
-    node = Sensor2Node()
+    node = TemperatureSensorNode()
     
     rclpy.spin(node)
     node.destroy_node()
