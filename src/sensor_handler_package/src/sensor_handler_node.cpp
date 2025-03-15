@@ -4,7 +4,7 @@
 
 SensorHandlerNode::SensorHandlerNode() : Node("sensor_handler_node") {
 
-    // Parameter
+    // Parameter (sensor names)
     this->declare_parameter<std::vector<std::string>>("sensor_names");
     this->sensor_names = this->get_parameter("sensor_names").as_string_array();
 

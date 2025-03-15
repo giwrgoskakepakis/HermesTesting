@@ -14,7 +14,10 @@ def generate_launch_description():
         Node(
             package='main_package',
             executable='main_node',
-            name='main_node'
+            name='main_node',
+            parameters=[
+                {"sensor_names": sensor_names}
+            ]
         ),
         Node(
             package='sensor_package',

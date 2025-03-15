@@ -17,6 +17,10 @@ class MainNode : public rclcpp::Node {
         // Constructor
         MainNode() : Node("main_node") {
         
+            // Parameter (sensor names)
+            this->declare_parameter<std::vector<std::string>>("sensor_names");
+            this->sensor_names = this->get_parameter("sensor_names").as_string_array();
+
             // signal to start sensors after checks (Latching)
             publisher_sensors_start_ = this->create_publisher<std_msgs::msg::Bool>(
                 "sensors_start_signal", rclcpp::QoS(1).transient_local()
@@ -53,6 +57,7 @@ class MainNode : public rclcpp::Node {
 
         // attributes
         rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr publisher_sensors_start_;
+        std::vector<std::string> sensor_names;
 };
 
 
