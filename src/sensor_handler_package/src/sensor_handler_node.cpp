@@ -78,7 +78,7 @@ void SensorHandlerNode::sole_pressures_sensor_data_updating(const msg_types::msg
     RCLCPP_INFO(this->get_logger(), ("Updated " + MAGENTA + "sole_pressures_sensor" + RESET + " data: %f %f %f %f").c_str(), sole_pressures.left_sole_values[0], sole_pressures.left_sole_values[1], sole_pressures.right_sole_values[0], sole_pressures.right_sole_values[1]);
 }
 
-// ==========================1============= Handling Functions ========================================
+// ======================================= Handling Functions ========================================
 // Gyroscope:
 void SensorHandlerNode::gyroscope_sensor_data_handling() {
     RCLCPP_INFO(this->get_logger(), (GREEN + "Handling gyroscope_sensor data periodically: %f %f" + RESET).c_str(), gyroscope_angles.angle_x, gyroscope_angles.angle_y);

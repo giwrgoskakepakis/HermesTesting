@@ -18,8 +18,8 @@ def generate_launch_description():
         ),
         Node(
             package='sensor_package',
-            executable='gyroscope_sensor',
-            name='gyroscope_sensor',
+            executable=sensor_names[0],
+            name=sensor_names[0],
             output='screen',
             parameters=[
                 {"sensor_name": sensor_names[0]}
@@ -27,8 +27,8 @@ def generate_launch_description():
         ),
         Node(
             package='sensor_package',
-            executable='temperature_sensor',
-            name='temperature_sensor',
+            executable=sensor_names[1],
+            name=sensor_names[1],
             output='screen',
             parameters=[
                 {"sensor_name": sensor_names[1]}
@@ -36,8 +36,8 @@ def generate_launch_description():
         ),
         Node(
             package='sensor_package',
-            executable='voltage_sensor',
-            name='voltage_sensor',
+            executable=sensor_names[2],
+            name=sensor_names[2],
             output='screen',
             parameters=[
                 {"sensor_name": sensor_names[2]}
@@ -45,8 +45,8 @@ def generate_launch_description():
         ),
         Node(
             package='sensor_package',
-            executable='sole_pressure_sensor',
-            name='sole_pressure_sensor',
+            executable=sensor_names[3],
+            name=sensor_names[3],
             output='screen',
             parameters=[
                 {"sensor_name": sensor_names[3]}
