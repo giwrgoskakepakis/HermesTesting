@@ -14,7 +14,8 @@ class SensorNode(LifecycleNode):
         self.get_logger().info("Configuring sensor node...")
         
         # Create the lifecycle publisher with explicit QoS settings
-        self.publisher = self.create_publisher(String, 'sensor_data', 10)
+        # self.publisher = self.create_publisher(String, 'sensor_data', 10)
+        self.publisher = self.create_lifecycle_publisher(String, 'sensor_data', 10)
         self.get_logger().info("Lifecycle publisher created with QoS settings.")
         return TransitionCallbackReturn.SUCCESS
 
@@ -24,7 +25,7 @@ class SensorNode(LifecycleNode):
         self.timer = self.create_timer(1.0, self.publish_data)
         self.get_logger().info("Timer created. Publishing data...")
 
-        return TransitionCallbackReturn.SUCCESS
+        return super().on_activate(state)
     
     def on_error(self, state: State) -> TransitionCallbackReturn:
         self.get_logger().error("ERROR ERROR ERROR")
