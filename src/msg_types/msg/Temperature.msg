@@ -1,1 +1,0 @@
-int32[15] temperatures_array

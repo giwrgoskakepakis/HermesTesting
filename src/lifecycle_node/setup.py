@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'sensor_package'
+package_name = 'lifecycle_node'
 
 setup(
     name=package_name,
@@ -13,17 +13,15 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='giorgos',
-    maintainer_email='giorgos@todo.todo',
+    maintainer='sofoklis',
+    maintainer_email='sofoklis2314@gmail.com',
     description='TODO: Package description',
     license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'gyroscope_sensor = sensor_package.gyroscope_sensor:main', 
-            'temperature_sensor = sensor_package.temperature_sensor:main',
-            'voltage_sensor = sensor_package.voltage_sensor:main',
-            'sole_pressure_sensor = sensor_package.sole_pressure_sensor:main'
+            'sensor = lifecycle_node.sensor:main', 
+            'main_controller = lifecycle_node.main_controller:main', 
         ],
     },
 )
