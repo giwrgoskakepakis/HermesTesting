@@ -1,12 +1,33 @@
-import launch
-import launch_ros.actions
-from launch_ros.actions import LifecycleNode
-from launch_ros.actions import Node
+from launch import LaunchDescription
+from launch_ros.actions import LifecycleNode, Node
 
 def generate_launch_description():
-    return launch.LaunchDescription([
-    LifecycleNode(package='lifecycle_node', executable='sensor',
-                      name='lc_talker', namespace='', output='screen'),
-        Node(package='lifecycle_handler', executable='handler', output='screen'),
-        Node(package='lifecycle', executable='lifecycle_service_client', output='screen')
+    sensor_node = LifecycleNode(
+        package='lifecycle_node',
+        executable='sensor',
+        name='sensor_node',
+        namespace='',
+        output='screen'
+    )
+
+    handler_node = LifecycleNode(
+        package='lifecycle_handler',
+        executable='handler',
+        name='handler_node',
+        namespace='',
+        output='screen'
+    )
+
+    main_node = Node(
+        package='lifecycle_manager',
+        executable='lifecycle_manager',
+        name='main_node',
+        namespace='',
+        output='screen'
+    )
+
+    return LaunchDescription([
+        sensor_node,
+        handler_node,
+        main_node
     ])

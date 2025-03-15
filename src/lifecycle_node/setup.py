@@ -21,7 +21,6 @@ setup(
     entry_points={
         'console_scripts': [
             'sensor = lifecycle_node.sensor:main', 
-            'main_controller = lifecycle_node.main_controller:main', 
         ],
     },
 )
