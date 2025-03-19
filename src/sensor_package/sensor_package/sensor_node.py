@@ -3,6 +3,9 @@ from rclpy.node import Node
 from std_msgs.msg import Bool
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
 
+# test line for something in git
+import numpy as np
+
 class SensorNode(Node, ABC):
 
     def __init__(self, sensor_name: str, data_type: type, delay: float, args: list):
