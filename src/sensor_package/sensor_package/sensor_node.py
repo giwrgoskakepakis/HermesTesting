@@ -3,16 +3,13 @@ from rclpy.node import Node
 from std_msgs.msg import Bool
 from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
 
-# test line for something in git
-import numpy as np
-
 class SensorNode(Node, ABC):
 
     def __init__(self, sensor_name: str, data_type: type, delay: float, args: list):
         super().__init__(sensor_name)
 
         self.declare_parameter("sensor_name", "default_topic")
-        self.sensor_name = "test"
+        self.sensor_name = self.get_parameter("sensor_name").value
         self.get_logger().info(f"Publishing on topic: {self.sensor_name}")
 
         self.args = args
