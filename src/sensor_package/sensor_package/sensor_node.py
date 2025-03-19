@@ -12,7 +12,7 @@ class SensorNode(Node, ABC):
         super().__init__(sensor_name)
 
         self.declare_parameter("sensor_name", "default_topic")
-        self.sensor_name = self.get_parameter("sensor_name").value
+        self.sensor_name = "test"
         self.get_logger().info(f"Publishing on topic: {self.sensor_name}")
 
         self.args = args
