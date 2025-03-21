@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
-from rclpy.node import Node
-from std_msgs.msg import Bool
-from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
+from rclpy.lifecycle import LifecycleNode
+from rclpy.lifecycle import TransitionCallbackReturn
+#from std_msgs.msg import Bool
+#from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
 
-class SensorNode(Node, ABC):
+class SensorNode(LifecycleNode, ABC):
 
     def __init__(self, sensor_name: str, data_type: type, delay: float, args: list):
         super().__init__(sensor_name)
@@ -17,36 +18,57 @@ class SensorNode(Node, ABC):
 
         # subscriber object to a one-time topic to wait for main app to finish startup checks before initiating execution
         # even if main app sends the signal before this subscription mounts, it will still hear it
-        self.start_signal_subscriber = self.create_subscription(
-            Bool, 
-            'sensors_start_signal', 
-            self.evaluate_start_signal, 
-            QoSProfile(
-                depth=1,
-                reliability=ReliabilityPolicy.RELIABLE,
-                durability=DurabilityPolicy.TRANSIENT_LOCAL
-            )
-        )
+        # self.start_signal_subscriber = self.create_subscription(
+        #     Bool, 
+        #     'sensors_start_signal', 
+        #     self.evaluate_start_signal, 
+        #     QoSProfile(
+        #         depth=1,
+        #         reliability=ReliabilityPolicy.RELIABLE,
+        #         durability=DurabilityPolicy.TRANSIENT_LOCAL
+        #     )
+        # )
 
         # publisher object (to sensor data)
-        self.publisher_sensor_data_ = self.create_publisher(
-            data_type, 
-            f"{self.sensor_name}_data",
-            10
-        )
+        self.publisher_sensor_data_ = None # will be configured
+        # self.publisher_sensor_data_ = self.create_publisher(
+        #     data_type, 
+        #     f"{self.sensor_name}_data",
+        #     10
+        # )
 
         self.get_logger().info(f"{self.sensor_name} node created successfully")
 
-    def evaluate_start_signal(self, msg):
+    # def evaluate_start_signal(self, msg):
         
-        if msg.data:
-            self.get_logger().info(f"{self.sensor_name}: Main signaled OK: Starting sensor publishing.")
+    #     if msg.data:
+    #         self.get_logger().info(f"{self.sensor_name}: Main signaled OK: Starting sensor publishing.")
             
-            # timer object to take measurements
-            self.timer_simulated_data_ = self.create_timer(self.delay, self.send_data)
-        else:
-            self.get_logger().error(f"{self.sensor_name}: Main signaled NOT OK: Cannot start sensor publishing.")
+    #         # timer object to take measurements
+    #         self.timer_simulated_data_ = self.create_timer(self.delay, self.send_data)
+    #     else:
+    #         self.get_logger().error(f"{self.sensor_name}: Main signaled NOT OK: Cannot start sensor publishing.")
 
+
+    # ============================ Lifecycle Noded overrides: ============================
+
+    def on_configure(self, state) -> TransitionCallbackReturn:
+        return TransitionCallbackReturn.SUCCESS
+    
+    def on_activate(self, state) -> TransitionCallbackReturn:
+        return TransitionCallbackReturn.SUCCESS
+    
+    def on_deactivate(self, state) -> TransitionCallbackReturn:
+        return TransitionCallbackReturn.SUCCESS
+    
+    def on_cleanup(self, state) -> TransitionCallbackReturn:
+        return TransitionCallbackReturn.SUCCESS
+    
+    def on_shutdown(self, state) -> TransitionCallbackReturn:
+        return TransitionCallbackReturn.SUCCESS
+    
+    
+    
     def send_data(self):
         msg = self.take_measurements(*self.args)
 
