@@ -90,7 +90,7 @@ public:
 
         auto request = std::make_shared<lifecycle_msgs::srv::GetState::Request>();
         auto future = client->async_send_request(request);
-
+        
         // Use a separate executor to wait for the future
         // rclcpp::executors::SingleThreadedExecutor executor;
         if (rclcpp::spin_until_future_complete(this->get_node_base_interface(), future) != rclcpp::FutureReturnCode::SUCCESS) {
