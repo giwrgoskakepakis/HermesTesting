@@ -28,7 +28,7 @@ class MainNode : public rclcpp::Node {
         }
 
         // Simulated sensor checks
-        void perform_checks() {
+        void init_electronics() {
             auto msg = std_msgs::msg::Bool();
 
             // simulated checks
@@ -36,11 +36,11 @@ class MainNode : public rclcpp::Node {
             bool config_check = check_configuration();
 
             if (sensor_check && config_check) {
-                RCLCPP_INFO(this->get_logger(), (GREEN + "        Main Node: Checks passed successfully." + RESET).c_str());
+                RCLCPP_INFO(this->get_logger(), (GREEN + "        Main Node: Init Electronics passed successfully." + RESET).c_str());
                 msg.data = true;
             }
             else {
-                RCLCPP_ERROR(this->get_logger(), (RED + "        Main Node: Checks failed." + RESET).c_str());
+                RCLCPP_ERROR(this->get_logger(), (RED + "        Main Node: Init Electronics failed." + RESET).c_str());
                 msg.data = false;
             }
 
@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
     auto main_node = std::make_shared<MainNode>();  
 
     // Perform sensor checks
-    main_node->perform_checks();
+    main_node->init_electronics();
 
     rclcpp::spin(main_node);
     rclcpp::shutdown();

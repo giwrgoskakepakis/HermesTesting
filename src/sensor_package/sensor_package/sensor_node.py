@@ -59,4 +59,4 @@ class SensorNode(Node, ABC):
     @abstractmethod
     def take_measurements(self, *args):
         """Abstract method that must be implemented by child classes"""
-        pass  
+        pass
