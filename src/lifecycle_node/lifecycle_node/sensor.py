@@ -19,7 +19,7 @@ class SensorNode(LifecycleNode):
     def on_activate(self, state: State) -> TransitionCallbackReturn:
         self.get_logger().info("Activating sensor node...")
         self.timer.reset()  # Restart the timer when activated
-        return TransitionCallbackReturn.SUCCESS
+        return super().on_activate(state)
 
     def on_error(self, state: State) -> TransitionCallbackReturn:
         self.get_logger().error("Error detected. Transitioning to error state")
@@ -28,7 +28,7 @@ class SensorNode(LifecycleNode):
     def on_deactivate(self, state: State) -> TransitionCallbackReturn:
         self.get_logger().info("Deactivating sensor node...")
         self.timer.cancel()
-        return TransitionCallbackReturn.SUCCESS
+        return super().on_deactivate(state)
 
     def on_cleanup(self, state: State) -> TransitionCallbackReturn:
         self.get_logger().info("Cleaning up sensor node...")
